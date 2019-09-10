@@ -7,9 +7,9 @@ import Typography from '@material-ui/core/Typography';
 const styles = makeStyles({
   heading: {
     color:'#333',
-	fontSize: '20px',
-	fontWeight: '500',
-	padding: '15px',
+  	fontSize: '20px',
+  	fontWeight: '600',
+  	padding: '15px',
   },
 });
 
