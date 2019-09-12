@@ -1,19 +1,45 @@
+/*
+*   Show category list based on selected cateory
+*   Compinent Used: 
+*   "SmallBox for getting single category box"
+*/
+
 import * as React from 'react'
 import SmallBox from '../components/SmallBox'
-import Container from '@material-ui/core/Container';
-import { styled } from '@material-ui/styles';
+import Container from '@material-ui/core/Container'
+import { styled } from '@material-ui/styles'
+import { createRef } from 'react'
 
-class CategoryHBlocks extends React.PureComponent{
+const CategoryHBlocks = (props) => {
+    const catBlk = createRef()
 
-    processData = (catID) => {
-        this.props.catIDCallback(catID);
+    const processData = (catID, offsetLeft) => {
+        let selOffset = (offsetLeft - 60)
+        var container = catBlk.current
+        let a=''
+        var slideTimer = setInterval(function(){
+             if(container.scrollLeft < selOffset){ 
+                container.scrollLeft += 1
+                if(container.scrollLeft >= selOffset || container.scrollLeft === a){
+                    window.clearInterval(slideTimer)
+                }
+                a = container.scrollLeft
+            } else {
+                container.scrollLeft -= 1
+                if(container.scrollLeft <= selOffset){
+                    window.clearInterval(slideTimer)
+                }
+            }
+        }, 3)
+
+        // using callBack to send category ID back
+        props.catIDCallback(catID)
     }
 
-    render(){
-        let { catList } = this.props;
+        let { catList } = props
     	return (
-            <CatBlock>
-                <Container>
+            <CatBlock ref={catBlk}>
+                <Container >
                     {   catList.map((data, index) => (
                             <SmallBox 
                                 key={index} 
@@ -22,14 +48,13 @@ class CategoryHBlocks extends React.PureComponent{
                                 total={catList.length} 
                                 name={data.category_name} 
                                 background={data.category_image}
-                                dataCallback={this.processData}
+                                dataCallback={processData}
                                 />
                         ))
                     }
                 </Container>      
             </CatBlock>          
     		)
-    }
 }
 
 const CatBlock = styled(Container)({
@@ -37,6 +62,9 @@ const CatBlock = styled(Container)({
     overflowY: 'hidden',
     whiteSpace: 'nowrap',
     paddingBottom: '15px',
-});
+    paddingLeft: '0',
+    transition: 'all .5s',
+
+})
 
 export default CategoryHBlocks

@@ -1,11 +1,16 @@
+/*
+*   Show listing of product based on selected cateory
+*   Compinent Used: 
+*   "CategoryHBlocks for getting category listing"
+*   "ProductVBlocks" for getting product listing"
+*/
+
 import * as React from 'react'
 import { Fragment } from 'react'
 import Heading from '../components/Heading'
 import CategoryHBlocks from '../blocks/CategoryHBlocks'
 import ProductVBlocks from '../blocks/ProductVBlocks'
 import Skeleton from 'react-loading-skeleton'
-import Container from '@material-ui/core/Container'
-import { styled } from '@material-ui/styles'
 const axios = require('axios')
 
 class Listing extends React.PureComponent{

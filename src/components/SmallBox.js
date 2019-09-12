@@ -1,14 +1,20 @@
+/*
+*   Show category list box based on props provided
+*/
+
 import * as React from 'react'
-import { Fragment } from 'react';
+import { useRef } from 'react'
+import { Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button';
-import ButtonBase from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button'
+import ButtonBase from '@material-ui/core/Button'
 
 const useStyles = makeStyles({
 	root: props=> ({
 		padding: '12px 0px',
 		width:'120px',
 		backgroundImage: `url(${props.background})`,
+	    backgroundColor: 'rgba(0, 0, 0, 0.22)',
 		backgroundSize: '100% 100%',
 		color:'#fff',
 		fontSize:'14px',
@@ -16,28 +22,33 @@ const useStyles = makeStyles({
 		display: 'inline-block',
 		marginRight: '10px',
 		whiteSpace: 'initial',
-		height: '70px',
+		height: '65px',
 	}), 
 	all: {
 		padding: '12px 0px',
 		width:'120px',
 		backgroundSize: '100% 100%',
-		color:'#333',
+		color:'#757575',
 		fontSize:'14px',
 		textAlign:'center',
 		display: 'inline-block',
 		marginRight: '10px',
 		whiteSpace: 'initial',
-		height: '70px',
+		height: '65px',
+		borderColor: '#979797',
 	}
-});
+})
 
 
-function SmallBox(props) {
+const SmallBox = (props) => {
 
-	const classes = useStyles(props);
+	const classes = useStyles(props)
+	const catRef = useRef()
 	const showList = () => {
-		props.dataCallback(props.category_id);
+		let offsetLeft = catRef.current.offsetLeft
+
+		// using callback to send category id back for rendering product list based on category id
+		props.dataCallback(props.category_id, offsetLeft)
 	}
 	return (
         <Fragment>
@@ -50,9 +61,10 @@ function SmallBox(props) {
                 </ButtonBase>
             : ''
         }
-            <Button 
+            <Button
             	className={classes.root} 
             	onClick={showList}
+            	ref={catRef}
             >
             	{props.name}
         	</Button>
